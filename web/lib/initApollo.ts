@@ -2,11 +2,13 @@ import {
   ApolloClient,
   InMemoryCache,
   NormalizedCacheObject,
+  gql,
 } from 'apollo-boost';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import fetch from 'isomorphic-unfetch';
 import { isBrowser } from './isBrowser';
+import { typeDefs, resolvers } from '../components/utils/myschema';
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 
@@ -21,8 +23,8 @@ interface Options {
 
 function create(initialState: any, { getToken }: Options) {
   const httpLink = createHttpLink({
-    uri: 'https://api.graph.cool/simple/v1/cj5geu3slxl7t0127y8sity9r',
-    credentials: 'same-origin',
+    uri: 'http://localhost:4000',
+    credentials: 'include',
   });
 
   const authLink = setContext((_, { headers }) => {
@@ -41,6 +43,8 @@ function create(initialState: any, { getToken }: Options) {
     ssrMode: !isBrowser, // Disables forceFetch on the server (so queries are only run once)
     link: authLink.concat(httpLink),
     cache: new InMemoryCache().restore(initialState || {}),
+    typeDefs,
+    resolvers,
   });
 }
 
