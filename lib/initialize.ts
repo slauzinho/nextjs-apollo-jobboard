@@ -22,7 +22,7 @@ export default async function(ctx: AppContext) {
   // We only do client-side validation
   // The server validation is done on the server file.
   if (isBrowser) {
-    const { isLoggedIn }: any = ctx.apolloClient.readQuery({
+    const { isLoggedIn }: any = await ctx.apolloClient.readQuery({
       query: IS_LOGGED_IN,
     });
 

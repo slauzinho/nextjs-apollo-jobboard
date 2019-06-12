@@ -10,9 +10,9 @@ class MyApp extends App<IApolloProps & DefaultAppIProps & AppProps> {
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
-          <ApolloProvider client={apolloClient}>
+          <ApolloHooksProvider client={apolloClient}>
             <Component {...pageProps} />
-          </ApolloProvider>
+          </ApolloHooksProvider>
         </ApolloProvider>
       </Container>
     );

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./web",
+    "baseUrl": ".",
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",

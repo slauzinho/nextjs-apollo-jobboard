@@ -1,12 +1,13 @@
 import React from 'react';
 import { Formik, FormikActions, Form, Field, FieldProps } from 'formik';
 import { NextFunctionComponent } from 'next';
-import { Mutation } from 'react-apollo';
 import { gql } from 'apollo-boost';
-import { Signup, SignupVariables } from '../../schemaTypes';
 
 import { AppContext, IApolloProps } from '../lib/withApollo';
-import initialize from '../lib/initialize';
+import {
+  SignupComponent,
+  SignupMutationVariables,
+} from '../components/generated/apolloComponents';
 
 export const REGISTER_MUTATION = gql`
   mutation Signup($email: String!, $password: String!) {
@@ -20,15 +21,15 @@ export const REGISTER_MUTATION = gql`
 `;
 
 const Register: NextFunctionComponent<IApolloProps, {}, AppContext> = () => (
-  <Mutation<Signup, SignupVariables> mutation={REGISTER_MUTATION}>
+  <SignupComponent>
     {(register, { error, loading }) => (
       <div>
         <h1>Register</h1>
         <Formik
           initialValues={{ email: '', password: '' }}
           onSubmit={async (
-            { email, password }: SignupVariables,
-            actions: FormikActions<SignupVariables>
+            { email, password }: SignupMutationVariables,
+            actions: FormikActions<SignupMutationVariables>
           ) => {
             try {
               actions.setSubmitting(true);
@@ -43,7 +44,10 @@ const Register: NextFunctionComponent<IApolloProps, {}, AppContext> = () => (
             <Form method="POST">
               <Field
                 name="email"
-                render={({ field, form }: FieldProps<SignupVariables>) => (
+                render={({
+                  field,
+                  form,
+                }: FieldProps<SignupMutationVariables>) => (
                   <div>
                     <input type="email" {...field} placeholder="email" />
                     {form.touched.email && form.errors.email}
@@ -52,7 +56,10 @@ const Register: NextFunctionComponent<IApolloProps, {}, AppContext> = () => (
               />
               <Field
                 name="password"
-                render={({ field, form }: FieldProps<SignupVariables>) => (
+                render={({
+                  field,
+                  form,
+                }: FieldProps<SignupMutationVariables>) => (
                   <div>
                     <input type="password" {...field} placeholder="password" />
                     {form.touched.password && form.errors.password}
@@ -68,11 +75,10 @@ const Register: NextFunctionComponent<IApolloProps, {}, AppContext> = () => (
         </Formik>
       </div>
     )}
-  </Mutation>
+  </SignupComponent>
 );
 
 Register.getInitialProps = async ctx => {
-  initialize(ctx);
   return {};
 };
 

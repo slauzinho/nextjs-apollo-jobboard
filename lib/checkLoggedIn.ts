@@ -12,7 +12,7 @@ export default (apolloClient: ApolloClient<NormalizedCacheObject>) =>
         }
       `,
     })
-    .then(({ data }) => {
+    .then(({ data, errors }) => {
       return { loggedInUser: data };
     })
     .catch(() => {
