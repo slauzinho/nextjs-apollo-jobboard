@@ -4,7 +4,7 @@ export default (apolloClient: ApolloClient<NormalizedCacheObject>) =>
   apolloClient
     .query({
       query: gql`
-        query getUser {
+        query Me {
           me {
             id
             email

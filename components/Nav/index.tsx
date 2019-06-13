@@ -36,4 +36,8 @@ const Nav: NextFunctionComponent = () => {
   );
 };
 
+Nav.getInitialProps = async () => {
+  console.log('eii');
+};
+
 export default Nav;

@@ -4,6 +4,8 @@ import styledNormalize from 'styled-normalize';
 import pallet from './styles/pallet';
 import Meta from './Meta';
 import Header from './Header';
+import { NextFunctionComponent } from 'next';
+import { IApolloProps, AppContext } from 'lib/withApollo';
 
 const StyledPage = styled.div`
   background: white;
@@ -56,7 +58,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Page: React.SFC = props => (
+const Page: NextFunctionComponent<IApolloProps, any, AppContext> = props => (
   <>
     <GlobalStyle />
     <ThemeProvider theme={pallet}>
@@ -68,5 +70,10 @@ const Page: React.SFC = props => (
     </ThemeProvider>
   </>
 );
+
+Page.getInitialProps = async ctx => {
+  console.log('PROOOOO', ctx);
+  return {};
+};
 
 export default Page;
