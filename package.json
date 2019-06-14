@@ -5,7 +5,8 @@
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
     "start": "cross-env NODE_ENV=production node dist/index.js",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen --config codegen.yml",
+    "lint": "tslint -p ."
   },
   "dependencies": {
     "apollo-boost": "^0.4.2",
@@ -44,6 +45,10 @@
     "cross-env": "^5.2.0",
     "nodemon": "^1.19.1",
     "ts-node": "^8.2.0",
+    "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-react": "^4.0.0",
     "typescript": "^3.5.1"
   },
   "license": "MIT"

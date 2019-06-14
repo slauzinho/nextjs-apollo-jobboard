@@ -1,0 +1,43 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-eslint-rules",
+    "tslint-config-prettier"
+  ],
+  "jsRules": true,
+  "rules": {
+    "interface-name": false,
+    "jsx-boolean-value": false,
+    "jsx-no-multiline-js": false,
+    "max-line-length": [false],
+    "no-console": false,
+    "no-empty": false,
+    "no-string-literal": false,
+    "no-var-requires": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "member-access": false,
+    "quotemark": false,
+    "semicolon": [true],
+    "trailing-comma": [false, "always"],
+    "arrow-parens": false,
+    "jsx-no-lambda": false
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": ["next.config.js", "components/generated/*"]
+  },
+  "incorrect-state-access": [true],
+  "override-calls-super": [
+    true,
+    "_buildInitialState",
+    "componentWillMount",
+    "componentDidMount",
+    "componentWillReceiveProps",
+    "componentWillUpdate",
+    "componentDidUpdate",
+    "componentWillUnmount"
+  ]
+}
