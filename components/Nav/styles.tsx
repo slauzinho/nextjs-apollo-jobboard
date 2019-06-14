@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 export const Container = styled.nav`
-  max-width: 1200px;
   background-color: #fff;
   margin: 0 auto;
   padding: 1rem 2rem;
   display: flex;
+  border-bottom: 1px solid #e6e9f5;
 
   a {
     display: inline-block;

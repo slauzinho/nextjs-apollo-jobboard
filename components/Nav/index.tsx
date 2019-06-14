@@ -10,7 +10,7 @@ const Nav: NextFunctionComponent = () => {
     <Container>
       <div>
         <Link href="/">
-          <a>Home</a>
+          <a>Emprego Dev</a>
         </Link>
       </div>
       {data && data.me ? (

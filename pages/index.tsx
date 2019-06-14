@@ -1,28 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
 import { NextFunctionComponent } from 'next';
-import { IApolloProps, AppContext } from '../lib/withApollo';
-import { ApolloClient } from 'apollo-boost';
+import { useMeQuery } from '../components/generated/apolloComponents';
+import Jobs from '../components/Jobs';
+import checkLoggedIn from '../lib/checkLoggedIn';
+import { Context } from 'react-apollo/types';
+import { orderByStatus } from '../components/utils';
 
-const Title = styled.h1`
-  color: red;
-  font-size: 50px;
-`;
-
-//@ts-ignore
-interface DefaultAppIProps {
-  client: ApolloClient<any>;
-}
-const Index: NextFunctionComponent<IApolloProps, any, AppContext> = props => {
-  return (
-    <div>
-      <Title>My page</Title>
-    </div>
-  );
+const Index: NextFunctionComponent = () => {
+  const { data } = useMeQuery({ errorPolicy: 'all' });
+  if (data && data.me && data.me.jobs) {
+    const sortedJobs = orderByStatus(data.me.jobs);
+    return <Jobs jobs={sortedJobs} />;
+  }
+  // TODO: Refactor to a nicer component
+  return <div>Ups! Parece que ainda não criaste nenhum anuncio.</div>;
 };
 
-Index.getInitialProps = async ctx => {
+Index.getInitialProps = async (ctx: Context) => {
+  await checkLoggedIn(ctx.apolloClient);
   return {};
 };
-
 export default Index;

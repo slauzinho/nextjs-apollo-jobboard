@@ -1,7 +1,7 @@
-import gql from 'graphql-tag';
-import * as ReactApollo from 'react-apollo';
-import * as React from 'react';
-import * as ReactApolloHooks from 'react-apollo-hooks';
+import gql from "graphql-tag";
+import * as ReactApollo from "react-apollo";
+import * as React from "react";
+import * as ReactApolloHooks from "react-apollo-hooks";
 export type Maybe<T> = T | null;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -14,80 +14,81 @@ export type Scalars = {
 };
 
 export type AuthPayload = {
-  __typename?: 'AuthPayload';
-  token: Scalars['String'];
+  __typename?: "AuthPayload";
+  token: Scalars["String"];
   user: User;
 };
 
 export type Category = {
-  __typename?: 'Category';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  jobs?: Maybe<Array<Maybe<Job>>>;
+  __typename?: "Category";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  jobs: Array<Maybe<Job>>;
 };
 
 export type City = {
-  __typename?: 'City';
-  id: Scalars['ID'];
-  lat: Scalars['Float'];
-  lng: Scalars['Float'];
-  name: Scalars['String'];
-  district: Scalars['String'];
+  __typename?: "City";
+  id: Scalars["ID"];
+  lat: Scalars["Float"];
+  lng: Scalars["Float"];
+  name: Scalars["String"];
+  district: Scalars["String"];
 };
 
 export type Job = {
-  __typename?: 'Job';
-  id: Scalars['ID'];
-  slug: Scalars['String'];
-  title: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
-  company: Scalars['String'];
-  description: Scalars['String'];
+  __typename?: "Job";
+  id: Scalars["ID"];
+  slug: Scalars["String"];
+  title: Scalars["String"];
+  url?: Maybe<Scalars["String"]>;
+  company: Scalars["String"];
+  description: Scalars["String"];
   city: City;
-  published_at?: Maybe<Scalars['String']>;
+  published_at?: Maybe<Scalars["String"]>;
   categories: Array<Category>;
   tags: Array<Maybe<Tag>>;
-  status: Scalars['String'];
+  status: Scalars["String"];
+  shortDescription: Scalars["String"];
 };
 
 export type JobCreateInput = {
-  title: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
-  company: Scalars['String'];
-  description: Scalars['String'];
-  city: Scalars['String'];
-  categories: Array<Scalars['String']>;
-  tags: Array<Maybe<Scalars['String']>>;
+  title: Scalars["String"];
+  url?: Maybe<Scalars["String"]>;
+  company: Scalars["String"];
+  description: Scalars["String"];
+  city: Scalars["String"];
+  categories: Array<Scalars["String"]>;
+  tags: Array<Maybe<Scalars["String"]>>;
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename?: "Mutation";
   signup: AuthPayload;
   login: AuthPayload;
-  logout: Scalars['Boolean'];
-  publish: Scalars['String'];
+  logout: Scalars["Boolean"];
+  publish: Scalars["String"];
   unpublish: Job;
   createJob: Job;
-  forgotPassword: Scalars['Boolean'];
+  forgotPassword: Scalars["Boolean"];
   resetPassword: AuthPayload;
 };
 
 export type MutationSignupArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars["String"];
+  password: Scalars["String"];
 };
 
 export type MutationLoginArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars["String"];
+  password: Scalars["String"];
 };
 
 export type MutationPublishArgs = {
-  id: Scalars['ID'];
+  id: Scalars["ID"];
 };
 
 export type MutationUnpublishArgs = {
-  id: Scalars['ID'];
+  id: Scalars["ID"];
 };
 
 export type MutationCreateJobArgs = {
@@ -95,7 +96,7 @@ export type MutationCreateJobArgs = {
 };
 
 export type MutationForgotPasswordArgs = {
-  email: Scalars['String'];
+  email: Scalars["String"];
 };
 
 export type MutationResetPasswordArgs = {
@@ -103,64 +104,89 @@ export type MutationResetPasswordArgs = {
 };
 
 export type Query = {
-  __typename?: 'Query';
+  __typename?: "Query";
   me?: Maybe<User>;
   jobs: Array<Maybe<Job>>;
   pending: Array<Maybe<Job>>;
 };
 
 export type ResetPasswordInput = {
-  resetToken: Scalars['String'];
-  password: Scalars['String'];
-  repeatPassword: Scalars['String'];
+  resetToken: Scalars["String"];
+  password: Scalars["String"];
+  repeatPassword: Scalars["String"];
 };
 
 export type Tag = {
-  __typename?: 'Tag';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  jobs?: Maybe<Array<Maybe<Job>>>;
+  __typename?: "Tag";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  jobs: Array<Maybe<Job>>;
 };
 
 export type User = {
-  __typename?: 'User';
-  id: Scalars['ID'];
-  email: Scalars['String'];
-  jobs: Array<Maybe<Job>>;
+  __typename?: "User";
+  id: Scalars["ID"];
+  email: Scalars["String"];
+  jobs: Array<Job>;
 };
 export type LogoutMutationVariables = {};
 
-export type LogoutMutation = { __typename?: 'Mutation' } & Pick<
+export type LogoutMutation = { __typename?: "Mutation" } & Pick<
   Mutation,
-  'logout'
+  "logout"
 >;
 
 export type LoginMutationVariables = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars["String"];
+  password: Scalars["String"];
 };
 
-export type LoginMutation = { __typename?: 'Mutation' } & {
-  login: { __typename?: 'AuthPayload' } & {
-    user: { __typename?: 'User' } & Pick<User, 'id' | 'email'>;
+export type LoginMutation = { __typename?: "Mutation" } & {
+  login: { __typename?: "AuthPayload" } & {
+    user: { __typename?: "User" } & Pick<User, "id" | "email">;
   };
 };
 
 export type SignupMutationVariables = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars["String"];
+  password: Scalars["String"];
 };
 
-export type SignupMutation = { __typename?: 'Mutation' } & {
-  signup: { __typename?: 'AuthPayload' } & {
-    user: { __typename?: 'User' } & Pick<User, 'id' | 'email'>;
+export type SignupMutation = { __typename?: "Mutation" } & {
+  signup: { __typename?: "AuthPayload" } & {
+    user: { __typename?: "User" } & Pick<User, "id" | "email">;
   };
 };
 
 export type MeQueryVariables = {};
 
-export type MeQuery = { __typename?: 'Query' } & {
-  me: Maybe<{ __typename?: 'User' } & Pick<User, 'email' | 'id'>>;
+export type MeQuery = { __typename?: "Query" } & {
+  me: Maybe<
+    { __typename?: "User" } & Pick<User, "id" | "email"> & {
+        jobs: Array<
+          { __typename?: "Job" } & Pick<
+            Job,
+            | "id"
+            | "slug"
+            | "title"
+            | "url"
+            | "company"
+            | "description"
+            | "shortDescription"
+            | "published_at"
+            | "status"
+          > & {
+              city: { __typename?: "City" } & Pick<City, "id" | "name">;
+              categories: Array<
+                { __typename?: "Category" } & Pick<Category, "id" | "name">
+              >;
+              tags: Array<
+                Maybe<{ __typename?: "Tag" } & Pick<Tag, "id" | "name">>
+              >;
+            }
+        >;
+      }
+  >;
 };
 
 export const LogoutDocument = gql`
@@ -174,7 +200,7 @@ export type LogoutMutationFn = ReactApollo.MutationFn<
 >;
 export type LogoutComponentProps = Omit<
   ReactApollo.MutationProps<LogoutMutation, LogoutMutationVariables>,
-  'mutation'
+  "mutation"
 >;
 
 export const LogoutComponent = (props: LogoutComponentProps) => (
@@ -202,8 +228,8 @@ export function withLogout<TProps, TChildProps = {}>(
     LogoutMutationVariables,
     LogoutProps<TChildProps>
   >(LogoutDocument, {
-    alias: 'withLogout',
-    ...operationOptions,
+    alias: "withLogout",
+    ...operationOptions
   });
 }
 
@@ -234,7 +260,7 @@ export type LoginMutationFn = ReactApollo.MutationFn<
 >;
 export type LoginComponentProps = Omit<
   ReactApollo.MutationProps<LoginMutation, LoginMutationVariables>,
-  'mutation'
+  "mutation"
 >;
 
 export const LoginComponent = (props: LoginComponentProps) => (
@@ -262,8 +288,8 @@ export function withLogin<TProps, TChildProps = {}>(
     LoginMutationVariables,
     LoginProps<TChildProps>
   >(LoginDocument, {
-    alias: 'withLogin',
-    ...operationOptions,
+    alias: "withLogin",
+    ...operationOptions
   });
 }
 
@@ -294,7 +320,7 @@ export type SignupMutationFn = ReactApollo.MutationFn<
 >;
 export type SignupComponentProps = Omit<
   ReactApollo.MutationProps<SignupMutation, SignupMutationVariables>,
-  'mutation'
+  "mutation"
 >;
 
 export const SignupComponent = (props: SignupComponentProps) => (
@@ -322,8 +348,8 @@ export function withSignup<TProps, TChildProps = {}>(
     SignupMutationVariables,
     SignupProps<TChildProps>
   >(SignupDocument, {
-    alias: 'withSignup',
-    ...operationOptions,
+    alias: "withSignup",
+    ...operationOptions
   });
 }
 
@@ -341,14 +367,37 @@ export function useSignupMutation(
 export const MeDocument = gql`
   query Me {
     me {
-      email
       id
+      email
+      jobs {
+        id
+        slug
+        title
+        url
+        company
+        description
+        shortDescription
+        city {
+          id
+          name
+        }
+        published_at
+        categories {
+          id
+          name
+        }
+        tags {
+          id
+          name
+        }
+        status
+      }
     }
   }
 `;
 export type MeComponentProps = Omit<
   ReactApollo.QueryProps<MeQuery, MeQueryVariables>,
-  'query'
+  "query"
 >;
 
 export const MeComponent = (props: MeComponentProps) => (
@@ -373,8 +422,8 @@ export function withMe<TProps, TChildProps = {}>(
     MeQueryVariables,
     MeProps<TChildProps>
   >(MeDocument, {
-    alias: 'withMe',
-    ...operationOptions,
+    alias: "withMe",
+    ...operationOptions
   });
 }
 

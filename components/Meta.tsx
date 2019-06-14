@@ -6,7 +6,7 @@ const Meta = () => (
     <meta charSet="utf-8" />
     <link rel="shortcut icon" href="/static/favicon.png" />
     <link
-      href="https://fonts.googleapis.com/css?family=Fira+Sans:400,600,700&display=swap"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />

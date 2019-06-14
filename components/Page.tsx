@@ -9,13 +9,12 @@ import { IApolloProps, AppContext } from 'lib/withApollo';
 
 const StyledPage = styled.div`
   background: white;
-  color: ${props => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.primary};
 `;
 
 const Inner = styled.div`
-  max-width: ${props => props.theme.dimensions.max};
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 2rem;
 `;
 
 export const GlobalStyle = createGlobalStyle`
@@ -36,7 +35,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Fira Sans', sans-serif;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
     line-height: 1.7;
     font-size: 1.6rem;
     font-weight: 400;
@@ -58,7 +57,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Page: NextFunctionComponent<IApolloProps, any, AppContext> = props => (
+const Page: NextFunctionComponent<IApolloProps, any, AppContext> = (props) => (
   <>
     <GlobalStyle />
     <ThemeProvider theme={pallet}>
@@ -71,7 +70,7 @@ const Page: NextFunctionComponent<IApolloProps, any, AppContext> = props => (
   </>
 );
 
-Page.getInitialProps = async ctx => {
+Page.getInitialProps = async (ctx) => {
   console.log('PROOOOO', ctx);
   return {};
 };

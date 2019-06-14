@@ -1,18 +1,12 @@
-import { gql, ApolloClient, NormalizedCacheObject } from 'apollo-boost';
+import { ApolloClient, NormalizedCacheObject } from 'apollo-boost';
+import { ME_QUERY } from '../graphql/users/query';
 
 export default (apolloClient: ApolloClient<NormalizedCacheObject>) =>
   apolloClient
     .query({
-      query: gql`
-        query Me {
-          me {
-            id
-            email
-          }
-        }
-      `,
+      query: ME_QUERY,
     })
-    .then(({ data, errors }) => {
+    .then(({ data }) => {
       return { loggedInUser: data };
     })
     .catch(() => {

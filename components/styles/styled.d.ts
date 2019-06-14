@@ -7,13 +7,24 @@ declare module 'styled-components' {
       primary: string;
       secondary: string;
       featured: string;
+      article: string;
     };
     text: {
       primary: string;
       secondary: string;
       dark: string;
       light: string;
+      size: {
+        small: string;
+        normal: string;
+        big: string;
+        huge: string;
+      };
     };
+    status: {
+      APPROVED: string!
+      [key: string]: string
+    }
     tags: {
       python: string;
     };

@@ -9,7 +9,7 @@ import {
 } from '../components/generated/apolloComponents';
 import Router from 'next/router';
 
-const Login: NextFunctionComponent<IApolloProps, {}, AppContext> = props => {
+const Login: NextFunctionComponent<IApolloProps, {}, AppContext> = () => {
   const login = useLoginMutation({
     update: async (cache, { data }) => {
       if (!data && !data.login) {
@@ -62,10 +62,6 @@ const Login: NextFunctionComponent<IApolloProps, {}, AppContext> = props => {
       )}
     </Formik>
   );
-};
-
-Login.getInitialProps = async ctx => {
-  return {};
 };
 
 export default Login;
