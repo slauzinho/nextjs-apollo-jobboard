@@ -2,13 +2,6 @@ import { JobMeQuery } from '../../types';
 
 const orderingRanking = ['APPROVED', 'PENDING', 'REJECTED', 'EXPIRED'];
 
-/**
- * Function that sorts a Job array by comparing the status code
- * of which job, and if they are equal it defaults to the publish
- * date.
- * @param jobs Job Array
- */
-
 export function orderByStatus(jobs: JobMeQuery[]) {
   return jobs.sort((jobA, jobB) => {
     const resultByStatus =

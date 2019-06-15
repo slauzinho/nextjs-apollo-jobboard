@@ -1,7 +1,7 @@
 import React from 'react';
 import { Editor, EditorState } from 'draft-js';
 import { NextFunctionComponent } from 'next';
-import { Container, EditorContainer } from './styles';
+import { Container, EditorContainer, TopContainer, CloseBtn } from './styles';
 import {
   useDeleteJobMutation,
   MeDocument,
@@ -13,6 +13,7 @@ interface IProps {
   editorState: EditorState;
   readOnly: boolean;
   job: JobMeQuery;
+  closeEditor: any;
 }
 
 const Component: NextFunctionComponent<IProps> = props => {
@@ -37,14 +38,16 @@ const Component: NextFunctionComponent<IProps> = props => {
 
   return (
     <Container>
-      <button
-        onClick={() => {
-          deleteJob();
-        }}
-      >
-        Delete
-      </button>
-
+      <TopContainer>
+        <button
+          onClick={() => {
+            deleteJob();
+          }}
+        >
+          Delete
+        </button>
+        <CloseBtn onClick={() => props.closeEditor()}>&times;</CloseBtn>
+      </TopContainer>
       <EditorContainer>
         <Editor
           editorState={props.editorState}

@@ -15,12 +15,17 @@ const ConvertJobStateFromHtml = (htmlString: string) => {
 };
 
 const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
-  const [editorState, setEditorState] = useState<any>();
-  const [activeJob, setActiveJob] = useState();
+  const [editorState, setEditorState] = useState<EditorState>();
+  const [activeJob, setActiveJob] = useState<JobMeQuery>();
   const handleClick = (job: JobMeQuery) => {
     setActiveJob(job);
     setEditorState(ConvertJobStateFromHtml(job.description));
   };
+  const resetEditor = () => {
+    setEditorState(undefined);
+    setActiveJob(undefined);
+  };
+
   if (!jobs) {
     return <div>Ups no jobs...</div>;
   }
@@ -33,8 +38,13 @@ const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
       </div>
       <div>
         {' '}
-        {editorState && (
-          <Editor editorState={editorState} readOnly={true} job={activeJob} />
+        {editorState && activeJob && (
+          <Editor
+            editorState={editorState}
+            readOnly={true}
+            job={activeJob}
+            closeEditor={resetEditor}
+          />
         )}
       </div>
     </div>
