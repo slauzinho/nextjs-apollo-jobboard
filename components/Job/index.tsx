@@ -5,6 +5,7 @@ import { JobMeQuery } from 'types';
 
 interface IProps {
   job: JobMeQuery;
+  openEditor: any;
 }
 
 const transformStatus = (status: string): string => {
@@ -20,8 +21,13 @@ const transformStatus = (status: string): string => {
   }
 };
 
-const Job: NextFunctionComponent<IProps> = ({ job }) => (
-  <Container status={job.status}>
+const Job: NextFunctionComponent<IProps> = ({ job, openEditor }) => (
+  <Container
+    status={job.status}
+    onClick={() => {
+      openEditor(job);
+    }}
+  >
     <CardTop>
       <span>{job.company}</span>
       <span>{job.published_at}</span>

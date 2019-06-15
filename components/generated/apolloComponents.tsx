@@ -61,6 +61,14 @@ export type JobCreateInput = {
   tags: Array<Maybe<Scalars["String"]>>;
 };
 
+export type JobUpdateInput = {
+  url?: Maybe<Scalars["String"]>;
+  description: Scalars["String"];
+  city: Scalars["String"];
+  categories: Array<Scalars["String"]>;
+  tags: Array<Maybe<Scalars["String"]>>;
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   signup: AuthPayload;
@@ -71,6 +79,8 @@ export type Mutation = {
   createJob: Job;
   forgotPassword: Scalars["Boolean"];
   resetPassword: AuthPayload;
+  updateJob: Job;
+  deleteJob: Scalars["String"];
 };
 
 export type MutationSignupArgs = {
@@ -101,6 +111,15 @@ export type MutationForgotPasswordArgs = {
 
 export type MutationResetPasswordArgs = {
   input?: Maybe<ResetPasswordInput>;
+};
+
+export type MutationUpdateJobArgs = {
+  id: Scalars["ID"];
+  input: JobUpdateInput;
+};
+
+export type MutationDeleteJobArgs = {
+  id: Scalars["ID"];
 };
 
 export type Query = {
@@ -157,6 +176,15 @@ export type SignupMutation = { __typename?: "Mutation" } & {
     user: { __typename?: "User" } & Pick<User, "id" | "email">;
   };
 };
+
+export type DeleteJobMutationVariables = {
+  id: Scalars["ID"];
+};
+
+export type DeleteJobMutation = { __typename?: "Mutation" } & Pick<
+  Mutation,
+  "deleteJob"
+>;
 
 export type MeQueryVariables = {};
 
@@ -363,6 +391,61 @@ export function useSignupMutation(
     SignupDocument,
     baseOptions
   );
+}
+export const DeleteJobDocument = gql`
+  mutation deleteJob($id: ID!) {
+    deleteJob(id: $id)
+  }
+`;
+export type DeleteJobMutationFn = ReactApollo.MutationFn<
+  DeleteJobMutation,
+  DeleteJobMutationVariables
+>;
+export type DeleteJobComponentProps = Omit<
+  ReactApollo.MutationProps<DeleteJobMutation, DeleteJobMutationVariables>,
+  "mutation"
+>;
+
+export const DeleteJobComponent = (props: DeleteJobComponentProps) => (
+  <ReactApollo.Mutation<DeleteJobMutation, DeleteJobMutationVariables>
+    mutation={DeleteJobDocument}
+    {...props}
+  />
+);
+
+export type DeleteJobProps<TChildProps = {}> = Partial<
+  ReactApollo.MutateProps<DeleteJobMutation, DeleteJobMutationVariables>
+> &
+  TChildProps;
+export function withDeleteJob<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    DeleteJobMutation,
+    DeleteJobMutationVariables,
+    DeleteJobProps<TChildProps>
+  >
+) {
+  return ReactApollo.withMutation<
+    TProps,
+    DeleteJobMutation,
+    DeleteJobMutationVariables,
+    DeleteJobProps<TChildProps>
+  >(DeleteJobDocument, {
+    alias: "withDeleteJob",
+    ...operationOptions
+  });
+}
+
+export function useDeleteJobMutation(
+  baseOptions?: ReactApolloHooks.MutationHookOptions<
+    DeleteJobMutation,
+    DeleteJobMutationVariables
+  >
+) {
+  return ReactApolloHooks.useMutation<
+    DeleteJobMutation,
+    DeleteJobMutationVariables
+  >(DeleteJobDocument, baseOptions);
 }
 export const MeDocument = gql`
   query Me {

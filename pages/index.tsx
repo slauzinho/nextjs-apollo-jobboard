@@ -10,7 +10,11 @@ const Index: NextFunctionComponent = () => {
   const { data } = useMeQuery({ errorPolicy: 'all' });
   if (data && data.me && data.me.jobs) {
     const sortedJobs = orderByStatus(data.me.jobs);
-    return <Jobs jobs={sortedJobs} />;
+    return (
+      <div>
+        <Jobs jobs={sortedJobs} />
+      </div>
+    );
   }
   // TODO: Refactor to a nicer component
   return <div>Ups! Parece que ainda não criaste nenhum anuncio.</div>;
