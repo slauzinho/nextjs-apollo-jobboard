@@ -27,3 +27,9 @@ export const SIGNUP_MUTATION = gql`
     }
   }
 `;
+
+export const DELETE_MUTATION = gql`
+  mutation deleteJob($id: ID!) {
+    deleteJob(id: $id)
+  }
+`;
