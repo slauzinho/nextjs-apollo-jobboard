@@ -14,17 +14,9 @@ const ConvertJobStateFromHtml = (htmlString: string) => {
   return EditorState.createWithContent(stateFromHTML(htmlString));
 };
 
-const useEditor = (job: any) => {
-  const [readOnly, setReadOnly] = useState(true);
-  const [editorState, setEditorState] = useState<EditorState>(
-    ConvertJobStateFromHtml(job.description)
-  );
-};
-
 const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
   const [editorState, setEditorState] = useState<EditorState>();
   const [activeJob, setActiveJob] = useState<JobMeQuery>();
-  const [readOnly, setReadOnly] = useState(true);
   const handleClick = (job: JobMeQuery) => {
     setActiveJob(job);
     setEditorState(ConvertJobStateFromHtml(job.description));
@@ -33,7 +25,6 @@ const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
   const resetEditor = () => {
     setEditorState(undefined);
     setActiveJob(undefined);
-    setReadOnly(true);
   };
 
   if (!jobs) {
@@ -51,10 +42,8 @@ const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
         {editorState && activeJob && (
           <Editor
             editorState={editorState}
-            readOnly={readOnly}
             job={activeJob}
             closeEditor={resetEditor}
-            makeEditable={() => setReadOnly(!readOnly)}
             setEditorState={setEditorState}
           />
         )}

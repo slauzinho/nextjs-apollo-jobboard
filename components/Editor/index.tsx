@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Editor, EditorState } from 'draft-js';
 import { NextFunctionComponent } from 'next';
 import { Container, EditorContainer, TopContainer, CloseBtn } from './styles';
@@ -11,14 +11,22 @@ import { JobMeQuery } from '../../types';
 
 interface IProps {
   editorState: EditorState;
-  readOnly: boolean;
   job: JobMeQuery;
   closeEditor: () => void;
-  makeEditable: () => void;
   setEditorState: any;
 }
 
 const Component: NextFunctionComponent<IProps> = props => {
+  const [readOnly, setReadOnly] = useState(true);
+  const [prevJobID, setPrevJobID] = useState<string>();
+
+  // If we get a new job from props we need to reset the
+  // readonly state since it should always start as true.
+  if (props.job.id !== prevJobID) {
+    setReadOnly(true);
+    setPrevJobID(props.job.id);
+  }
+
   const deleteJob = useDeleteJobMutation({
     update: cache => {
       const data = cache.readQuery<MeQuery>({ query: MeDocument });
@@ -49,7 +57,12 @@ const Component: NextFunctionComponent<IProps> = props => {
         >
           Delete
         </button>
-        <button type="button" onClick={() => props.makeEditable()}>
+        <button
+          type="button"
+          onClick={() => {
+            setReadOnly(false);
+          }}
+        >
           Editar
         </button>
         <CloseBtn onClick={() => props.closeEditor()}>&times;</CloseBtn>
@@ -57,7 +70,7 @@ const Component: NextFunctionComponent<IProps> = props => {
       <EditorContainer>
         <Editor
           editorState={props.editorState}
-          readOnly={props.readOnly}
+          readOnly={readOnly}
           onChange={newEditorState => props.setEditorState(newEditorState)}
         />
       </EditorContainer>
