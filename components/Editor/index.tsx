@@ -13,7 +13,9 @@ interface IProps {
   editorState: EditorState;
   readOnly: boolean;
   job: JobMeQuery;
-  closeEditor: any;
+  closeEditor: () => void;
+  makeEditable: () => void;
+  setEditorState: any;
 }
 
 const Component: NextFunctionComponent<IProps> = props => {
@@ -40,11 +42,15 @@ const Component: NextFunctionComponent<IProps> = props => {
     <Container>
       <TopContainer>
         <button
+          type="button"
           onClick={() => {
             deleteJob();
           }}
         >
           Delete
+        </button>
+        <button type="button" onClick={() => props.makeEditable()}>
+          Editar
         </button>
         <CloseBtn onClick={() => props.closeEditor()}>&times;</CloseBtn>
       </TopContainer>
@@ -52,7 +58,7 @@ const Component: NextFunctionComponent<IProps> = props => {
         <Editor
           editorState={props.editorState}
           readOnly={props.readOnly}
-          onChange={() => ''}
+          onChange={newEditorState => props.setEditorState(newEditorState)}
         />
       </EditorContainer>
     </Container>
