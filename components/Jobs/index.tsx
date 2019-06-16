@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { NextFunctionComponent } from 'next';
-import { stateFromHTML } from 'draft-js-import-html';
-import { EditorState } from 'draft-js';
 import Job from '../Job';
 import Editor from '../Editor';
 import { JobMeQuery } from 'types';
@@ -10,20 +8,13 @@ interface IProps {
   jobs: JobMeQuery[];
 }
 
-const ConvertJobStateFromHtml = (htmlString: string) => {
-  return EditorState.createWithContent(stateFromHTML(htmlString));
-};
-
 const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
-  const [editorState, setEditorState] = useState<EditorState>();
   const [activeJob, setActiveJob] = useState<JobMeQuery>();
   const handleClick = (job: JobMeQuery) => {
     setActiveJob(job);
-    setEditorState(ConvertJobStateFromHtml(job.description));
   };
   // Reset to initial state
   const resetEditor = () => {
-    setEditorState(undefined);
     setActiveJob(undefined);
   };
 
@@ -36,15 +27,25 @@ const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
         {jobs.map(job => (
           <Job job={job} key={job.id} openEditor={handleClick} />
         ))}
+        {jobs.map(job => (
+          <Job job={job} key={job.id} openEditor={handleClick} />
+        ))}
+        {jobs.map(job => (
+          <Job job={job} key={job.id} openEditor={handleClick} />
+        ))}
+        {jobs.map(job => (
+          <Job job={job} key={job.id} openEditor={handleClick} />
+        ))}
+        {jobs.map(job => (
+          <Job job={job} key={job.id} openEditor={handleClick} />
+        ))}
       </div>
       <div>
         {' '}
-        {editorState && activeJob && (
+        {activeJob && (
           <Editor
-            editorState={editorState}
             job={activeJob}
             closeEditor={resetEditor}
-            setEditorState={setEditorState}
             key={activeJob.id}
           />
         )}

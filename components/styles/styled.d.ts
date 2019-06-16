@@ -15,6 +15,7 @@ declare module 'styled-components' {
       dark: string;
       light: string;
       size: {
+        smaller: string;
         small: string;
         normal: string;
         big: string;

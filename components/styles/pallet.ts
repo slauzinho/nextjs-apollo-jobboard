@@ -13,6 +13,7 @@ const theme: DefaultTheme = {
     dark: '#272E3F',
     light: '#8EA1BA',
     size: {
+      smaller: '1.2rem',
       small: '1.4rem',
       normal: '1.6rem',
       big: '1.8rem',
