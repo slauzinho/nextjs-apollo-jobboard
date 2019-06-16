@@ -18,14 +18,6 @@ interface IProps {
 
 const Component: NextFunctionComponent<IProps> = props => {
   const [readOnly, setReadOnly] = useState(true);
-  const [prevJobID, setPrevJobID] = useState<string>();
-
-  // If we get a new job from props we need to reset the
-  // readonly state since it should always start as true.
-  if (props.job.id !== prevJobID) {
-    setReadOnly(true);
-    setPrevJobID(props.job.id);
-  }
 
   const deleteJob = useDeleteJobMutation({
     update: cache => {

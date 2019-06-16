@@ -45,6 +45,7 @@ const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
             job={activeJob}
             closeEditor={resetEditor}
             setEditorState={setEditorState}
+            key={activeJob.id}
           />
         )}
       </div>
