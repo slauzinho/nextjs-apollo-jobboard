@@ -49,6 +49,7 @@ export type Job = {
   tags: Array<Maybe<Tag>>;
   status: Scalars["String"];
   shortDescription: Scalars["String"];
+  email?: Maybe<Scalars["String"]>;
 };
 
 export type JobCreateInput = {
@@ -172,11 +173,36 @@ export type CitiesQuery = { __typename?: "Query" } & {
   >;
 };
 
+export type JobInfoFragment = { __typename?: "Job" } & Pick<
+  Job,
+  | "id"
+  | "slug"
+  | "title"
+  | "email"
+  | "url"
+  | "company"
+  | "description"
+  | "shortDescription"
+  | "published_at"
+  | "status"
+> & {
+    city: { __typename?: "City" } & Pick<City, "id" | "name">;
+    categories: Array<
+      { __typename?: "Category" } & Pick<Category, "id" | "name">
+    >;
+    tags: Array<Maybe<{ __typename?: "Tag" } & Pick<Tag, "id" | "name">>>;
+  };
+
 export type TagsQueryVariables = {};
 
 export type TagsQuery = { __typename?: "Query" } & {
   tags: Array<Maybe<{ __typename?: "Tag" } & Pick<Tag, "id" | "name">>>;
 };
+
+export type UserInfoFragment = { __typename?: "User" } & Pick<
+  User,
+  "id" | "email"
+>;
 
 export type LogoutMutationVariables = {};
 
@@ -192,7 +218,7 @@ export type LoginMutationVariables = {
 
 export type LoginMutation = { __typename?: "Mutation" } & {
   login: { __typename?: "AuthPayload" } & {
-    user: { __typename?: "User" } & Pick<User, "id" | "email">;
+    user: { __typename?: "User" } & UserInfoFragment;
   };
 };
 
@@ -203,7 +229,7 @@ export type SignupMutationVariables = {
 
 export type SignupMutation = { __typename?: "Mutation" } & {
   signup: { __typename?: "AuthPayload" } & {
-    user: { __typename?: "User" } & Pick<User, "id" | "email">;
+    user: { __typename?: "User" } & UserInfoFragment;
   };
 };
 
@@ -220,33 +246,43 @@ export type MeQueryVariables = {};
 
 export type MeQuery = { __typename?: "Query" } & {
   me: Maybe<
-    { __typename?: "User" } & Pick<User, "id" | "email"> & {
-        jobs: Array<
-          { __typename?: "Job" } & Pick<
-            Job,
-            | "id"
-            | "slug"
-            | "title"
-            | "url"
-            | "company"
-            | "description"
-            | "shortDescription"
-            | "published_at"
-            | "status"
-          > & {
-              city: { __typename?: "City" } & Pick<City, "id" | "name">;
-              categories: Array<
-                { __typename?: "Category" } & Pick<Category, "id" | "name">
-              >;
-              tags: Array<
-                Maybe<{ __typename?: "Tag" } & Pick<Tag, "id" | "name">>
-              >;
-            }
-        >;
-      }
+    { __typename?: "User" } & {
+      jobs: Array<{ __typename?: "Job" } & JobInfoFragment>;
+    } & UserInfoFragment
   >;
 };
-
+export const JobInfoFragmentDoc = gql`
+  fragment JobInfo on Job {
+    id
+    slug
+    title
+    email
+    url
+    company
+    description
+    shortDescription
+    city {
+      id
+      name
+    }
+    published_at
+    categories {
+      id
+      name
+    }
+    tags {
+      id
+      name
+    }
+    status
+  }
+`;
+export const UserInfoFragmentDoc = gql`
+  fragment UserInfo on User {
+    id
+    email
+  }
+`;
 export const CategoriesDocument = gql`
   query Categories {
     categories {
@@ -462,11 +498,11 @@ export const LoginDocument = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       user {
-        id
-        email
+        ...UserInfo
       }
     }
   }
+  ${UserInfoFragmentDoc}
 `;
 export type LoginMutationFn = ReactApollo.MutationFn<
   LoginMutation,
@@ -522,11 +558,11 @@ export const SignupDocument = gql`
   mutation signup($email: String!, $password: String!) {
     signup(email: $email, password: $password) {
       user {
-        id
-        email
+        ...UserInfo
       }
     }
   }
+  ${UserInfoFragmentDoc}
 `;
 export type SignupMutationFn = ReactApollo.MutationFn<
   SignupMutation,
@@ -636,33 +672,14 @@ export function useDeleteJobMutation(
 export const MeDocument = gql`
   query Me {
     me {
-      id
-      email
+      ...UserInfo
       jobs {
-        id
-        slug
-        title
-        url
-        company
-        description
-        shortDescription
-        city {
-          id
-          name
-        }
-        published_at
-        categories {
-          id
-          name
-        }
-        tags {
-          id
-          name
-        }
-        status
+        ...JobInfo
       }
     }
   }
+  ${UserInfoFragmentDoc}
+  ${JobInfoFragmentDoc}
 `;
 export type MeComponentProps = Omit<
   ReactApollo.QueryProps<MeQuery, MeQueryVariables>,

@@ -1,33 +1,16 @@
 import { gql } from 'apollo-boost';
+import { JobInfoFragment } from '../jobs/fragments';
+import { UserInfoFragment } from '../users/fragments';
 
 export const ME_QUERY = gql`
   query Me {
     me {
-      id
-      email
+      ...UserInfo
       jobs {
-        id
-        slug
-        title
-        url
-        company
-        description
-        shortDescription
-        city {
-          id
-          name
-        }
-        published_at
-        categories {
-          id
-          name
-        }
-        tags {
-          id
-          name
-        }
-        status
+        ...JobInfo
       }
     }
   }
+  ${UserInfoFragment}
+  ${JobInfoFragment}
 `;
