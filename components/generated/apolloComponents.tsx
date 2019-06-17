@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
-import * as ReactApollo from "react-apollo";
 import * as React from "react";
+import * as ReactApollo from "react-apollo";
 import * as ReactApolloHooks from "react-apollo-hooks";
 export type Maybe<T> = T | null;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
@@ -127,6 +127,9 @@ export type Query = {
   me?: Maybe<User>;
   jobs: Array<Maybe<Job>>;
   pending: Array<Maybe<Job>>;
+  categories: Array<Maybe<Category>>;
+  tags: Array<Maybe<Tag>>;
+  cities: Array<Maybe<City>>;
 };
 
 export type ResetPasswordInput = {
@@ -148,6 +151,33 @@ export type User = {
   email: Scalars["String"];
   jobs: Array<Job>;
 };
+export type CategoriesQueryVariables = {};
+
+export type CategoriesQuery = { __typename?: "Query" } & {
+  categories: Array<
+    Maybe<{ __typename?: "Category" } & Pick<Category, "id" | "name">>
+  >;
+};
+
+export type CitiesQueryVariables = {};
+
+export type CitiesQuery = { __typename?: "Query" } & {
+  cities: Array<
+    Maybe<
+      { __typename?: "City" } & Pick<
+        City,
+        "id" | "name" | "lat" | "lng" | "district"
+      >
+    >
+  >;
+};
+
+export type TagsQueryVariables = {};
+
+export type TagsQuery = { __typename?: "Query" } & {
+  tags: Array<Maybe<{ __typename?: "Tag" } & Pick<Tag, "id" | "name">>>;
+};
+
 export type LogoutMutationVariables = {};
 
 export type LogoutMutation = { __typename?: "Mutation" } & Pick<
@@ -217,6 +247,162 @@ export type MeQuery = { __typename?: "Query" } & {
   >;
 };
 
+export const CategoriesDocument = gql`
+  query Categories {
+    categories {
+      id
+      name
+    }
+  }
+`;
+export type CategoriesComponentProps = Omit<
+  ReactApollo.QueryProps<CategoriesQuery, CategoriesQueryVariables>,
+  "query"
+>;
+
+export const CategoriesComponent = (props: CategoriesComponentProps) => (
+  <ReactApollo.Query<CategoriesQuery, CategoriesQueryVariables>
+    query={CategoriesDocument}
+    {...props}
+  />
+);
+
+export type CategoriesProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<CategoriesQuery, CategoriesQueryVariables>
+> &
+  TChildProps;
+export function withCategories<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    CategoriesQuery,
+    CategoriesQueryVariables,
+    CategoriesProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    CategoriesQuery,
+    CategoriesQueryVariables,
+    CategoriesProps<TChildProps>
+  >(CategoriesDocument, {
+    alias: "withCategories",
+    ...operationOptions
+  });
+}
+
+export function useCategoriesQuery(
+  baseOptions?: ReactApolloHooks.QueryHookOptions<CategoriesQueryVariables>
+) {
+  return ReactApolloHooks.useQuery<CategoriesQuery, CategoriesQueryVariables>(
+    CategoriesDocument,
+    baseOptions
+  );
+}
+export const CitiesDocument = gql`
+  query Cities {
+    cities {
+      id
+      name
+      lat
+      lng
+      district
+    }
+  }
+`;
+export type CitiesComponentProps = Omit<
+  ReactApollo.QueryProps<CitiesQuery, CitiesQueryVariables>,
+  "query"
+>;
+
+export const CitiesComponent = (props: CitiesComponentProps) => (
+  <ReactApollo.Query<CitiesQuery, CitiesQueryVariables>
+    query={CitiesDocument}
+    {...props}
+  />
+);
+
+export type CitiesProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<CitiesQuery, CitiesQueryVariables>
+> &
+  TChildProps;
+export function withCities<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    CitiesQuery,
+    CitiesQueryVariables,
+    CitiesProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    CitiesQuery,
+    CitiesQueryVariables,
+    CitiesProps<TChildProps>
+  >(CitiesDocument, {
+    alias: "withCities",
+    ...operationOptions
+  });
+}
+
+export function useCitiesQuery(
+  baseOptions?: ReactApolloHooks.QueryHookOptions<CitiesQueryVariables>
+) {
+  return ReactApolloHooks.useQuery<CitiesQuery, CitiesQueryVariables>(
+    CitiesDocument,
+    baseOptions
+  );
+}
+export const TagsDocument = gql`
+  query Tags {
+    tags {
+      id
+      name
+    }
+  }
+`;
+export type TagsComponentProps = Omit<
+  ReactApollo.QueryProps<TagsQuery, TagsQueryVariables>,
+  "query"
+>;
+
+export const TagsComponent = (props: TagsComponentProps) => (
+  <ReactApollo.Query<TagsQuery, TagsQueryVariables>
+    query={TagsDocument}
+    {...props}
+  />
+);
+
+export type TagsProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<TagsQuery, TagsQueryVariables>
+> &
+  TChildProps;
+export function withTags<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    TagsQuery,
+    TagsQueryVariables,
+    TagsProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    TagsQuery,
+    TagsQueryVariables,
+    TagsProps<TChildProps>
+  >(TagsDocument, {
+    alias: "withTags",
+    ...operationOptions
+  });
+}
+
+export function useTagsQuery(
+  baseOptions?: ReactApolloHooks.QueryHookOptions<TagsQueryVariables>
+) {
+  return ReactApolloHooks.useQuery<TagsQuery, TagsQueryVariables>(
+    TagsDocument,
+    baseOptions
+  );
+}
 export const LogoutDocument = gql`
   mutation Logout {
     logout
