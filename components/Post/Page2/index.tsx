@@ -31,6 +31,8 @@ const Page: React.FC<IProps & FormikProps<FormData>> = ({
   touched,
   setFieldValue,
   setFieldTouched,
+  handleBlur,
+  handleChange,
   categories,
 }) => {
   return (
@@ -56,7 +58,16 @@ const Page: React.FC<IProps & FormikProps<FormData>> = ({
       </CheckboxGroup>
       <InnerContainer>
         <h4>Email para os candidatos enviarem a sua candidatura:</h4>
-        <Field component={Input} name="email" id="email" label="Email" />
+        <Field
+          component={Input}
+          name="emailCandidatura"
+          id="emailCandidatura"
+          label="emailCandidatura"
+          type="email"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.emailCandidatura}
+        />
         <div>
           <svg
             width="15"
@@ -75,6 +86,17 @@ const Page: React.FC<IProps & FormikProps<FormData>> = ({
           </svg>
           Adiocionar outro e-mail
         </div>
+        <h4>Pode adicionar o link para a página do anuncio:</h4>
+        <Field
+          component={Input}
+          name="url"
+          id="url"
+          Label="url"
+          type="text"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.url}
+        />
       </InnerContainer>
     </>
   );

@@ -17,6 +17,7 @@ import { CITIES_QUERY } from '../graphql/cities/query';
 import { TAGS_QUERY } from '../graphql/tags/query';
 import Page1 from '../components/Post/Page1';
 import Page2 from '../components/Post/Page2';
+import Page3 from '../components/Post/Page3';
 import Error from '../components/styles/components/Error';
 
 export interface FormData {
@@ -26,8 +27,8 @@ export interface FormData {
   categories: string[];
   tags: string[] | null;
   editorState: EditorState;
-  url: string | null;
-  emailCandidatura: string | null;
+  url: string;
+  emailCandidatura: string;
 }
 
 interface IProps {
@@ -37,7 +38,7 @@ interface IProps {
 }
 
 // @ts-ignore
-const pages = [<Page1 />, <Page2 />];
+const pages = [<Page1 />, <Page2 />, <Page3 />];
 
 const Post: NextFunctionComponent<IProps, IProps, AppContext> = props => {
   const [page, setPage] = useState(0);
@@ -51,8 +52,8 @@ const Post: NextFunctionComponent<IProps, IProps, AppContext> = props => {
           city: '',
           categories: [],
           tags: [],
-          url: null,
-          emailCandidatura: null,
+          url: '',
+          emailCandidatura: '',
           editorState: EditorState.createEmpty(),
         }}
         onSubmit={async (values, { setSubmitting, setStatus }) => {
@@ -93,9 +94,9 @@ const Post: NextFunctionComponent<IProps, IProps, AppContext> = props => {
               )}
               {page === pages.length - 1 ? (
                 <div>
-                  <a type="submit" disabled={isSubmitting}>
+                  <button type="submit" disabled={isSubmitting}>
                     Enviar
-                  </a>
+                  </button>
                 </div>
               ) : (
                 <button
