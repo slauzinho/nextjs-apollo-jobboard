@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, FieldProps, InjectedFormikProps, FormikProps } from 'formik';
+import { Field, FormikProps } from 'formik';
 import styled from 'styled-components';
 
 // import TestSearch from '../TestSearch';
@@ -65,7 +65,9 @@ const Page: React.FC<IProps & FormikProps<FormData>> = ({
       component={CityInput}
       handleChange={(item: City) => setFieldValue('city', item.name)}
       cities={cities}
-    />
+    >
+      Cidade
+    </Field>
   </>
 );
 

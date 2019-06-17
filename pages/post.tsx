@@ -26,6 +26,8 @@ export interface FormData {
   categories: string[];
   tags: string[] | null;
   editorState: EditorState;
+  url: string | null;
+  emailCandidatura: string | null;
 }
 
 interface IProps {
@@ -45,12 +47,12 @@ const Post: NextFunctionComponent<IProps, IProps, AppContext> = props => {
       <Formik
         initialValues={{
           title: '',
-          tipo: '',
-          salario: '',
           empresa: '',
           city: '',
           categories: [],
           tags: [],
+          url: null,
+          emailCandidatura: null,
           editorState: EditorState.createEmpty(),
         }}
         onSubmit={async (values, { setSubmitting, setStatus }) => {

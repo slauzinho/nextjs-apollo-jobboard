@@ -1,8 +1,10 @@
 import React from 'react';
-import { Field } from 'formik';
+import { Field, FormikProps } from 'formik';
 import styled from 'styled-components';
 import { CheckboxGroup, Checkbox } from '../../styles/components/RadioForm';
 import Input from '../../styles/components/Input';
+import { Category } from '../../generated/apolloComponents';
+import { FormData } from '../../../pages/post';
 
 const InnerContainer = styled.div`
   div {
@@ -19,7 +21,11 @@ const InnerContainer = styled.div`
   }
 `;
 
-export default ({
+interface IProps {
+  categories: Category[];
+}
+
+const Page: React.FC<IProps & FormikProps<FormData>> = ({
   values,
   errors,
   touched,
@@ -73,3 +79,5 @@ export default ({
     </>
   );
 };
+
+export default Page;

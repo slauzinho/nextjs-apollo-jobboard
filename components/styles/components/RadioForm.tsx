@@ -1,8 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FieldProps, FormikErrors } from 'formik';
+
+interface IContainerProps {
+  active: string;
+}
 
 /** Checkbox styles */
-const Container = styled.div`
+const Container = styled.div<IContainerProps>`
   height: 4rem;
   line-height: 4rem;
   background-color: ${props => (props.active ? '#008040' : 'white')};
@@ -38,15 +43,22 @@ const InnerContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const InputFeedback = ({ error }) =>
-  error ? <div className="input-feedback">{error}</div> : null;
+const InputFeedback = ({
+  error,
+}: {
+  error: string | FormikErrors<any> | undefined | Array<string | undefined>;
+}) => (error ? <div className="input-feedback">{error}</div> : null);
 
-export const Checkbox = ({
+interface ICheckboxProps {
+  id: string;
+  label: string;
+}
+
+export const Checkbox: React.FC<ICheckboxProps & FieldProps> = ({
   field: { name, value, onChange, onBlur },
-  form: { errors, touched, setFieldValue },
+  form: { errors, touched },
   id,
   label,
-  ...props
 }) => {
   return (
     <Container active={value}>
@@ -67,11 +79,32 @@ export const Checkbox = ({
   );
 };
 
+interface ICheckboxGroupProps {
+  id: string;
+  label: string;
+  value: string[] | [];
+  error: Array<string | undefined> | undefined;
+  touched: Array<boolean | undefined> | undefined;
+  onChange: any;
+  onBlur: any;
+}
+
 // Checkbox group
-export class CheckboxGroup extends React.Component {
-  handleChange = event => {
+export const CheckboxGroup: React.FC<ICheckboxGroupProps> = props => {
+  const {
+    value,
+    error,
+    touched,
+    label,
+    children,
+    onChange,
+    onBlur,
+    id,
+  } = props;
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.currentTarget;
-    const valueArray = this.props.value || [];
+    const valueArray = value as any | [];
 
     if (target.checked) {
       valueArray.push(target.id);
@@ -79,33 +112,32 @@ export class CheckboxGroup extends React.Component {
       valueArray.splice(valueArray.indexOf(target.id), 1);
     }
 
-    this.props.onChange(this.props.id, valueArray);
-  }
+    onChange(id, valueArray);
+  };
 
-  handleBlur = () => {
-    // take care of touched
-    this.props.onBlur(this.props.id, true);
-  }
+  const handleBlur = () => {
+    onBlur(id, true);
+  };
 
-  render() {
-    const { value, error, touched, label, children } = this.props;
-
-    return (
-      <div>
-        <h3>{label}</h3>
-        <InnerContainer>
-          {React.Children.map(children, child => {
-            return React.cloneElement(child, {
+  return (
+    <div>
+      <h3>{label}</h3>
+      <InnerContainer>
+        {React.Children.map(
+          children as React.ReactElement<any>,
+          (checkbox: React.ReactElement<any>) => {
+            return React.cloneElement(checkbox, {
               field: {
-                value: value.includes(child.props.id),
-                onChange: this.handleChange,
-                onBlur: this.handleBlur,
+                // @ts-ignore
+                value: value.includes(checkbox.props.id),
+                onChange: handleChange,
+                onBlur: handleBlur,
               },
             });
-          })}
-        </InnerContainer>
-        {touched && <InputFeedback error={error} />}
-      </div>
-    );
-  }
-}
+          }
+        )}
+      </InnerContainer>
+      {touched && <InputFeedback error={error} />}
+    </div>
+  );
+};
