@@ -193,6 +193,14 @@ export type JobInfoFragment = { __typename?: "Job" } & Pick<
     tags: Array<Maybe<{ __typename?: "Tag" } & Pick<Tag, "id" | "name">>>;
   };
 
+export type JobCreateMutationVariables = {
+  input?: Maybe<JobCreateInput>;
+};
+
+export type JobCreateMutation = { __typename?: "Mutation" } & {
+  createJob: { __typename?: "Job" } & JobInfoFragment;
+};
+
 export type TagsQueryVariables = {};
 
 export type TagsQuery = { __typename?: "Query" } & {
@@ -387,6 +395,64 @@ export function useCitiesQuery(
     CitiesDocument,
     baseOptions
   );
+}
+export const JobCreateDocument = gql`
+  mutation jobCreate($input: JobCreateInput) {
+    createJob(input: $input) {
+      ...JobInfo
+    }
+  }
+  ${JobInfoFragmentDoc}
+`;
+export type JobCreateMutationFn = ReactApollo.MutationFn<
+  JobCreateMutation,
+  JobCreateMutationVariables
+>;
+export type JobCreateComponentProps = Omit<
+  ReactApollo.MutationProps<JobCreateMutation, JobCreateMutationVariables>,
+  "mutation"
+>;
+
+export const JobCreateComponent = (props: JobCreateComponentProps) => (
+  <ReactApollo.Mutation<JobCreateMutation, JobCreateMutationVariables>
+    mutation={JobCreateDocument}
+    {...props}
+  />
+);
+
+export type JobCreateProps<TChildProps = {}> = Partial<
+  ReactApollo.MutateProps<JobCreateMutation, JobCreateMutationVariables>
+> &
+  TChildProps;
+export function withJobCreate<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    JobCreateMutation,
+    JobCreateMutationVariables,
+    JobCreateProps<TChildProps>
+  >
+) {
+  return ReactApollo.withMutation<
+    TProps,
+    JobCreateMutation,
+    JobCreateMutationVariables,
+    JobCreateProps<TChildProps>
+  >(JobCreateDocument, {
+    alias: "withJobCreate",
+    ...operationOptions
+  });
+}
+
+export function useJobCreateMutation(
+  baseOptions?: ReactApolloHooks.MutationHookOptions<
+    JobCreateMutation,
+    JobCreateMutationVariables
+  >
+) {
+  return ReactApolloHooks.useMutation<
+    JobCreateMutation,
+    JobCreateMutationVariables
+  >(JobCreateDocument, baseOptions);
 }
 export const TagsDocument = gql`
   query Tags {
