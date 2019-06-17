@@ -10,6 +10,9 @@ import {
   Tag,
   CitiesQuery,
   City,
+  useJobCreateMutation,
+  MeQuery,
+  MeDocument,
 } from '../components/generated/apolloComponents';
 import { AppContext } from '../lib/withApollo';
 import { CATEGORIES_QUERY } from '../graphql/categories/query';
@@ -42,6 +45,7 @@ const pages = [<Page1 />, <Page2 />, <Page3 />];
 
 const Post: NextFunctionComponent<IProps, IProps, AppContext> = props => {
   const [page, setPage] = useState(0);
+  const createJob = useJobCreateMutation();
 
   return (
     <div>
@@ -67,10 +71,38 @@ const Post: NextFunctionComponent<IProps, IProps, AppContext> = props => {
             description,
             city: values.city,
             categories: values.categories,
-            tags: values.tags,
+            url: values.url,
+            email: values.emailCandidatura,
+            tags: values.tags.map((t: Tag) => t.name),
           };
 
-          console.log(data);
+          const result = await createJob({
+            variables: {
+              input: data,
+            },
+            update: (cache, { data: mutationResult }) => {
+              const meQueryData = cache.readQuery<MeQuery>({
+                query: MeDocument,
+              });
+              console.log('meQueryData', meQueryData);
+              if (meQueryData) {
+                console.log('Entrei');
+                console.log(mutationResult);
+                cache.writeQuery({
+                  query: MeDocument,
+                  data: {
+                    me: {
+                      ...meQueryData.me,
+                      jobs: [...meQueryData.me!.jobs, mutationResult.createJob],
+                    },
+                  },
+                });
+                console.log(mutationResult.createJob);
+                console.log(meQueryData);
+              }
+            },
+          });
+
           setSubmitting(false);
         }}
       >

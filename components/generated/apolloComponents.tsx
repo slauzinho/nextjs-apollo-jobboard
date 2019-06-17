@@ -60,6 +60,7 @@ export type JobCreateInput = {
   city: Scalars["String"];
   categories: Array<Scalars["String"]>;
   tags: Array<Maybe<Scalars["String"]>>;
+  email?: Maybe<Scalars["String"]>;
 };
 
 export type JobUpdateInput = {
@@ -68,6 +69,7 @@ export type JobUpdateInput = {
   city: Scalars["String"];
   categories: Array<Scalars["String"]>;
   tags: Array<Maybe<Scalars["String"]>>;
+  email?: Maybe<Scalars["String"]>;
 };
 
 export type Mutation = {
