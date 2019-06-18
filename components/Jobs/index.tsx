@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NextFunctionComponent } from 'next';
 import Job from '../Job';
-import Editor from '../Editor';
+import Details from '../Details';
 import { JobMeQuery } from 'types';
 
 interface IProps {
@@ -43,7 +43,7 @@ const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
       <div>
         {' '}
         {activeJob && (
-          <Editor
+          <Details
             job={activeJob}
             closeEditor={resetEditor}
             key={activeJob.id}
