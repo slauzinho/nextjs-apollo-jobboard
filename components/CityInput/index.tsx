@@ -4,7 +4,7 @@ import { City } from '../generated/apolloComponents';
 
 interface IProps {
   cities: City[];
-  handleChange: (city: City) => null;
+  handleChange: (city: City) => void;
 }
 
 const getSuggestions = (value: string | null, list: City[]) => {

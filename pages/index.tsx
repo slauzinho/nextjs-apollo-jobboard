@@ -1,27 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NextFunctionComponent } from 'next';
-import { useMeQuery } from '../components/generated/apolloComponents';
-import Jobs from '../components/Jobs';
-import checkLoggedIn from '../lib/checkLoggedIn';
-import { Context } from 'react-apollo/types';
-import { orderByStatus } from '../components/utils';
+import CityInput from '../components/CityInput';
+import { AppContext } from '../lib/withApollo';
+import { CITIES_QUERY } from '../graphql/cities/query';
+import { CitiesQuery, City } from '../components/generated/apolloComponents';
+import Input from '../components/styles/components/Input';
+import Link from 'next/link';
 
-const Index: NextFunctionComponent = () => {
-  const { data } = useMeQuery({ errorPolicy: 'all' });
-  if (data && data.me && data.me.jobs) {
-    const sortedJobs = orderByStatus(data.me.jobs);
-    return (
-      <div>
-        <Jobs jobs={sortedJobs} />
-      </div>
-    );
-  }
-  // TODO: Refactor to a nicer component
-  return <div>Ups! Parece que ainda não criaste nenhum anuncio.</div>;
+interface IProps {
+  cities: City[];
+}
+
+const Index: NextFunctionComponent<IProps, IProps, AppContext> = ({
+  cities,
+}) => {
+  const [city, setCity] = useState<City>();
+  const [job, setJob] = useState<string>();
+
+  return (
+    <div style={{ display: 'flex' }}>
+      <Input onChange={e => setJob(e.target.value)} />
+      <CityInput cities={cities} handleChange={setCity} />
+      <Link
+        href={{
+          pathname: '/jobs',
+          query: { job, city: city ? city.name : '' },
+        }}
+      >
+        <a>Procurar</a>
+      </Link>
+    </div>
+  );
 };
 
-Index.getInitialProps = async (ctx: Context) => {
-  await checkLoggedIn(ctx.apolloClient);
-  return {};
+Index.getInitialProps = async ctx => {
+  const { data } = await ctx.apolloClient.query<CitiesQuery>({
+    query: CITIES_QUERY,
+  });
+
+  return { cities: data.cities as City[] };
 };
+
 export default Index;

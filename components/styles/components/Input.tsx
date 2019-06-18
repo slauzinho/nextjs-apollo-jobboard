@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export default styled.input`
-  width: 100%;
   padding-right: 3.5rem;
   padding-left: 1.6rem;
   line-height: 4rem;
