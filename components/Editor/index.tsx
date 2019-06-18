@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Editor, EditorState } from 'draft-js';
+import React, { useState, useRef } from 'react';
+import { EditorState } from 'draft-js';
 import { NextFunctionComponent } from 'next';
 import {
   Container,
@@ -20,6 +20,40 @@ import {
 } from '../generated/apolloComponents';
 import { JobMeQuery } from '../../types';
 import { stateFromHTML } from 'draft-js-import-html';
+import Editor from 'draft-js-plugins-editor';
+import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
+
+import {
+  ItalicButton,
+  BoldButton,
+  UnderlineButton,
+  CodeButton,
+  HeadlineOneButton,
+  HeadlineTwoButton,
+  HeadlineThreeButton,
+  UnorderedListButton,
+  OrderedListButton,
+  BlockquoteButton,
+  CodeBlockButton,
+} from 'draft-js-buttons';
+
+// @ts-ignore
+const staticToolbarPlugin = createToolbarPlugin([
+  ItalicButton,
+  BoldButton,
+  UnderlineButton,
+  CodeButton,
+  HeadlineOneButton,
+  HeadlineTwoButton,
+  HeadlineThreeButton,
+  UnorderedListButton,
+  OrderedListButton,
+  BlockquoteButton,
+  CodeBlockButton,
+]);
+
+const { Toolbar } = staticToolbarPlugin;
+const plugins = [staticToolbarPlugin];
 
 interface IProps {
   job: JobMeQuery;
@@ -35,7 +69,7 @@ const Component: NextFunctionComponent<IProps> = ({ job, closeEditor }) => {
   const [editorState, setEditorState] = useState<EditorState>(
     ConvertJobStateFromHtml(job.description)
   );
-
+  const editor = useRef(null);
   const deleteJob = useDeleteJobMutation({
     update: cache => {
       const data = cache.readQuery<MeQuery>({ query: MeDocument });
@@ -75,9 +109,32 @@ const Component: NextFunctionComponent<IProps> = ({ job, closeEditor }) => {
         </div>
         <CloseBtn onClick={() => closeEditor()}>&times;</CloseBtn>
       </TopContainer>
+      {!readOnly && (
+        <Toolbar>
+          {(externalProps: any) => (
+            <>
+              <HeadlineThreeButton
+                {...externalProps}
+                theme={{
+                  active: 'draftJsToolbar__active__3qcpF',
+                  button: 'draftJsToolbar__button__qi1gf my-title-button',
+                  buttonWrapper: 'draftJsToolbar__buttonWrapper__1Dmqh',
+                }}
+              />
+              <BoldButton {...externalProps} />
+              <ItalicButton {...externalProps} />
+              <UnderlineButton {...externalProps} />
+              <UnorderedListButton {...externalProps} />
+              <OrderedListButton {...externalProps} />
+            </>
+          )}
+        </Toolbar>
+      )}
       <EditorContainer>
         <Editor
+          plugins={plugins}
           editorState={editorState}
+          ref={editor}
           readOnly={readOnly}
           onChange={newEditorState => setEditorState(newEditorState)}
         />
