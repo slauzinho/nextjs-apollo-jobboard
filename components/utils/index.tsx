@@ -1,4 +1,5 @@
 import { JobMeQuery } from '../../types';
+import { distanceInWordsToNow as distanceInWordsEnglish } from 'date-fns';
 
 const orderingRanking = ['APPROVED', 'PENDING', 'REJECTED', 'EXPIRED'];
 
@@ -14,5 +15,11 @@ export function orderByStatus(jobs: JobMeQuery[]) {
     }
     // Compare using the publish date
     return +new Date(jobA.published_at) - +new Date(jobB.published_at);
+  });
+}
+
+export function distanceInWordsToNow(date: string | number | Date) {
+  return distanceInWordsEnglish(date, {
+    locale: require('date-fns/locale/pt'),
   });
 }

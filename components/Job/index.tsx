@@ -1,11 +1,18 @@
 import React from 'react';
-import { NextFunctionComponent } from 'next';
 import { Container, CardTop, Title, Pill, CityWrapper } from './styles';
-import { JobMeQuery } from 'types';
+import { JobMeQuery, IDoc } from '../../types';
+import { distanceInWordsToNow } from '../../components/utils';
 
 interface IProps {
-  job: JobMeQuery;
+  job: JobMeQuery | IDoc;
   openEditor: any;
+}
+
+/**
+ * Check if the object is instance of JobMyQuery
+ */
+function instanceOfJob(object: any): object is JobMeQuery {
+  return 'status' in object;
 }
 
 const transformStatus = (status: string): string => {
@@ -21,7 +28,7 @@ const transformStatus = (status: string): string => {
   }
 };
 
-const Job: NextFunctionComponent<IProps> = ({ job, openEditor }) => (
+const Job: React.FC<IProps> = ({ job, openEditor }) => (
   <Container
     status={job.status}
     onClick={() => {
@@ -30,14 +37,27 @@ const Job: NextFunctionComponent<IProps> = ({ job, openEditor }) => (
   >
     <CardTop>
       <span>{job.company}</span>
-      <span>{job.published_at}</span>
+      <span>{distanceInWordsToNow(job.published_at)}</span>
     </CardTop>
     <Title>{job.title}</Title>
     <CityWrapper>
-      <span>{job.city.name}</span>
-      <Pill status={job.status}>{transformStatus(job.status)}</Pill>
+      {instanceOfJob(job) ? (
+        <>
+          <span>{job.city.name}</span>
+          <Pill status={job.status}>{transformStatus(job.status)}</Pill>
+        </>
+      ) : (
+        <span>{job.city}</span>
+      )}
     </CityWrapper>
     <p>{job.shortDescription}</p>
+    {!instanceOfJob(job) && (
+      <div style={{ display: 'flex' }}>
+        {job.categories.map(c => (
+          <div key={c}>{c}</div>
+        ))}
+      </div>
+    )}
   </Container>
 );
 
