@@ -37,7 +37,12 @@ const Job: React.FC<IProps> = ({ job, openEditor }) => (
   >
     <CardTop>
       <span>{job.company}</span>
-      <span>{distanceInWordsToNow(job.published_at)}</span>
+      {!instanceOfJob(job) && (
+        <span>{distanceInWordsToNow(job.updated_at)} atrás</span>
+      )}
+      {instanceOfJob(job) && job.published_at && (
+        <span>{distanceInWordsToNow(job.published_at)} atrás</span>
+      )}
     </CardTop>
     <Title>{job.title}</Title>
     <CityWrapper>
