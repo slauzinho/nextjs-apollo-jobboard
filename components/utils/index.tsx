@@ -14,7 +14,7 @@ export function orderByStatus(jobs: JobMeQuery[]) {
       return resultByStatus;
     }
     // Compare using the publish date
-    return +new Date(jobA.published_at) - +new Date(jobB.published_at);
+    return +new Date(jobB.published_at) - +new Date(jobA.published_at);
   });
 }
 
