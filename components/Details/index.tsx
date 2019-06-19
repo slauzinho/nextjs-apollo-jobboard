@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { EditorState } from 'draft-js';
 import { NextFunctionComponent } from 'next';
 import {
@@ -35,7 +35,6 @@ const Component: NextFunctionComponent<IProps> = ({ job, closeEditor }) => {
   const [editorState, setEditorState] = useState<EditorState>(
     ConvertJobStateFromHtml(job.description)
   );
-  const editor = useRef(null);
   const deleteJob = useDeleteJobMutation({
     update: cache => {
       const data = cache.readQuery<MeQuery>({ query: MeDocument });
