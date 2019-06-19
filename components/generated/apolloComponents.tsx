@@ -69,7 +69,6 @@ export type JobUpdateInput = {
   city: Scalars["String"];
   categories: Array<Scalars["String"]>;
   tags: Array<Maybe<Scalars["String"]>>;
-  email?: Maybe<Scalars["String"]>;
 };
 
 export type Mutation = {
@@ -130,9 +129,20 @@ export type Query = {
   me?: Maybe<User>;
   jobs: Array<Maybe<Job>>;
   pending: Array<Maybe<Job>>;
+  job?: Maybe<Job>;
   categories: Array<Maybe<Category>>;
   tags: Array<Maybe<Tag>>;
   cities: Array<Maybe<City>>;
+  city?: Maybe<City>;
+};
+
+export type QueryJobArgs = {
+  id: Scalars["ID"];
+};
+
+export type QueryCityArgs = {
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type ResetPasswordInput = {
@@ -162,17 +172,24 @@ export type CategoriesQuery = { __typename?: "Query" } & {
   >;
 };
 
+export type CityInfoFragment = { __typename?: "City" } & Pick<
+  City,
+  "id" | "name" | "lat" | "lng" | "district"
+>;
+
 export type CitiesQueryVariables = {};
 
 export type CitiesQuery = { __typename?: "Query" } & {
-  cities: Array<
-    Maybe<
-      { __typename?: "City" } & Pick<
-        City,
-        "id" | "name" | "lat" | "lng" | "district"
-      >
-    >
-  >;
+  cities: Array<Maybe<{ __typename?: "City" } & CityInfoFragment>>;
+};
+
+export type CityQueryVariables = {
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type CityQuery = { __typename?: "Query" } & {
+  city: Maybe<{ __typename?: "City" } & CityInfoFragment>;
 };
 
 export type JobInfoFragment = { __typename?: "Job" } & Pick<
@@ -201,6 +218,14 @@ export type JobCreateMutationVariables = {
 
 export type JobCreateMutation = { __typename?: "Mutation" } & {
   createJob: { __typename?: "Job" } & JobInfoFragment;
+};
+
+export type JobQueryQueryVariables = {
+  id: Scalars["ID"];
+};
+
+export type JobQueryQuery = { __typename?: "Query" } & {
+  job: Maybe<{ __typename?: "Job" } & JobInfoFragment>;
 };
 
 export type TagsQueryVariables = {};
@@ -261,6 +286,15 @@ export type MeQuery = { __typename?: "Query" } & {
     } & UserInfoFragment
   >;
 };
+export const CityInfoFragmentDoc = gql`
+  fragment CityInfo on City {
+    id
+    name
+    lat
+    lng
+    district
+  }
+`;
 export const JobInfoFragmentDoc = gql`
   fragment JobInfo on Job {
     id
@@ -347,13 +381,10 @@ export function useCategoriesQuery(
 export const CitiesDocument = gql`
   query Cities {
     cities {
-      id
-      name
-      lat
-      lng
-      district
+      ...CityInfo
     }
   }
+  ${CityInfoFragmentDoc}
 `;
 export type CitiesComponentProps = Omit<
   ReactApollo.QueryProps<CitiesQuery, CitiesQueryVariables>,
@@ -395,6 +426,57 @@ export function useCitiesQuery(
 ) {
   return ReactApolloHooks.useQuery<CitiesQuery, CitiesQueryVariables>(
     CitiesDocument,
+    baseOptions
+  );
+}
+export const CityDocument = gql`
+  query City($id: ID, $name: String) {
+    city(id: $id, name: $name) {
+      ...CityInfo
+    }
+  }
+  ${CityInfoFragmentDoc}
+`;
+export type CityComponentProps = Omit<
+  ReactApollo.QueryProps<CityQuery, CityQueryVariables>,
+  "query"
+>;
+
+export const CityComponent = (props: CityComponentProps) => (
+  <ReactApollo.Query<CityQuery, CityQueryVariables>
+    query={CityDocument}
+    {...props}
+  />
+);
+
+export type CityProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<CityQuery, CityQueryVariables>
+> &
+  TChildProps;
+export function withCity<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    CityQuery,
+    CityQueryVariables,
+    CityProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    CityQuery,
+    CityQueryVariables,
+    CityProps<TChildProps>
+  >(CityDocument, {
+    alias: "withCity",
+    ...operationOptions
+  });
+}
+
+export function useCityQuery(
+  baseOptions?: ReactApolloHooks.QueryHookOptions<CityQueryVariables>
+) {
+  return ReactApolloHooks.useQuery<CityQuery, CityQueryVariables>(
+    CityDocument,
     baseOptions
   );
 }
@@ -455,6 +537,58 @@ export function useJobCreateMutation(
     JobCreateMutation,
     JobCreateMutationVariables
   >(JobCreateDocument, baseOptions);
+}
+export const JobQueryDocument = gql`
+  query jobQuery($id: ID!) {
+    job(id: $id) {
+      ...JobInfo
+    }
+  }
+  ${JobInfoFragmentDoc}
+`;
+export type JobQueryComponentProps = Omit<
+  ReactApollo.QueryProps<JobQueryQuery, JobQueryQueryVariables>,
+  "query"
+> &
+  ({ variables: JobQueryQueryVariables; skip?: false } | { skip: true });
+
+export const JobQueryComponent = (props: JobQueryComponentProps) => (
+  <ReactApollo.Query<JobQueryQuery, JobQueryQueryVariables>
+    query={JobQueryDocument}
+    {...props}
+  />
+);
+
+export type JobQueryProps<TChildProps = {}> = Partial<
+  ReactApollo.DataProps<JobQueryQuery, JobQueryQueryVariables>
+> &
+  TChildProps;
+export function withJobQuery<TProps, TChildProps = {}>(
+  operationOptions?: ReactApollo.OperationOption<
+    TProps,
+    JobQueryQuery,
+    JobQueryQueryVariables,
+    JobQueryProps<TChildProps>
+  >
+) {
+  return ReactApollo.withQuery<
+    TProps,
+    JobQueryQuery,
+    JobQueryQueryVariables,
+    JobQueryProps<TChildProps>
+  >(JobQueryDocument, {
+    alias: "withJobQuery",
+    ...operationOptions
+  });
+}
+
+export function useJobQueryQuery(
+  baseOptions?: ReactApolloHooks.QueryHookOptions<JobQueryQueryVariables>
+) {
+  return ReactApolloHooks.useQuery<JobQueryQuery, JobQueryQueryVariables>(
+    JobQueryDocument,
+    baseOptions
+  );
 }
 export const TagsDocument = gql`
   query Tags {
