@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { NextFunctionComponent } from 'next';
+import Link from 'next/link';
 import CityInput from '../components/CityInput';
 import { AppContext } from '../lib/withApollo';
 import { CITIES_QUERY } from '../graphql/cities/query';
 import { CitiesQuery, City } from '../components/generated/apolloComponents';
 import Input from '../components/styles/components/Input';
-import Link from 'next/link';
+import checkLoggedIn from '../lib/checkLoggedIn';
 
 interface IProps {
   cities: City[];
@@ -34,6 +35,7 @@ const Index: NextFunctionComponent<IProps, IProps, AppContext> = ({
 };
 
 Index.getInitialProps = async ctx => {
+  await checkLoggedIn(ctx.apolloClient);
   const { data } = await ctx.apolloClient.query<CitiesQuery>({
     query: CITIES_QUERY,
   });
