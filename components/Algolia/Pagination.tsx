@@ -1,7 +1,23 @@
 import React from 'react';
 import { connectPagination } from 'react-instantsearch-dom';
 
-const Pagination = ({ currentRefinement, nbPages, refine }) => (
+interface IProps {
+  currentRefinement: number;
+  nbPages: number;
+  refine: (...args: any[]) => any;
+  items: Array<{
+    count: number;
+    isRefined: boolean;
+    label: string;
+    value: string;
+  }>;
+}
+
+const Pagination: React.FC<IProps> = ({
+  currentRefinement,
+  nbPages,
+  refine,
+}) => (
   <div>
     <h3>Páginas de Resultados:</h3>
     <a

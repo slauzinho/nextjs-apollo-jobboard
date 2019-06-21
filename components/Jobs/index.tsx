@@ -10,34 +10,28 @@ interface IProps {
 
 const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
   const [activeJob, setActiveJob] = useState<JobMeQuery>();
-  const handleClick = (job: JobMeQuery) => {
-    setActiveJob(job);
-  };
-  // Reset to initial state
-  const resetEditor = () => {
-    setActiveJob(undefined);
-  };
 
   if (!jobs) {
     return <div>Ups no jobs...</div>;
   }
+
   return (
     <div style={{ display: 'flex' }}>
       <div style={{ flex: 'none' }}>
         {jobs.map(job => (
-          <Job job={job} key={job.id} openEditor={handleClick} />
+          <Job job={job} key={job.id} openEditor={setActiveJob} />
         ))}
         {jobs.map(job => (
-          <Job job={job} key={job.id} openEditor={handleClick} />
+          <Job job={job} key={job.id} openEditor={setActiveJob} />
         ))}
         {jobs.map(job => (
-          <Job job={job} key={job.id} openEditor={handleClick} />
+          <Job job={job} key={job.id} openEditor={setActiveJob} />
         ))}
         {jobs.map(job => (
-          <Job job={job} key={job.id} openEditor={handleClick} />
+          <Job job={job} key={job.id} openEditor={setActiveJob} />
         ))}
         {jobs.map(job => (
-          <Job job={job} key={job.id} openEditor={handleClick} />
+          <Job job={job} key={job.id} openEditor={setActiveJob} />
         ))}
       </div>
       <div>
@@ -45,7 +39,7 @@ const Jobs: NextFunctionComponent<IProps> = ({ jobs }) => {
         {activeJob && (
           <Details
             job={activeJob}
-            closeEditor={resetEditor}
+            closeEditor={() => setActiveJob(undefined)}
             key={activeJob.id}
           />
         )}
