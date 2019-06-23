@@ -22,6 +22,7 @@ import Page1 from '../components/Post/Page1';
 import Page2 from '../components/Post/Page2';
 import Page3 from '../components/Post/Page3';
 import Error from '../components/styles/components/Error';
+import { schemaCreateJob } from '../components/utils';
 
 export interface FormData {
   title: string;
@@ -60,6 +61,7 @@ const Post: NextFunctionComponent<IProps, IProps, AppContext> = props => {
           emailCandidatura: '',
           editorState: EditorState.createEmpty(),
         }}
+        validationSchema={schemaCreateJob}
         onSubmit={async (values, { setSubmitting, setStatus }) => {
           setSubmitting(true);
           const description = stateToHTML(
