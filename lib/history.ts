@@ -17,3 +17,11 @@ export async function saveHistory(searchTerm: string, city: string) {
 
   return await localStorage.setItem('history', JSON.stringify([searchUrl]));
 }
+
+export async function getHistory(): Promise<string[]> {
+  const historyString = await localStorage.getItem('history');
+  if (historyString) {
+    return JSON.parse(historyString);
+  }
+  return [];
+}
