@@ -60,23 +60,15 @@ const Index: NextFunctionComponent<IProps, IProps, AppContext> = ({
           }}
         >
           {history &&
-            history.map(
-              (
-                { job: jobItem, city: cityItem }: { job: string; city: string },
-                index
-              ) => {
-                return (
-                  <Link
-                    key={index}
-                    href={`jobs?job=${jobItem}&city=${cityItem}`}
-                  >
-                    <a>
-                      {jobItem} - {cityItem}
-                    </a>
-                  </Link>
-                );
-              }
-            )}
+            history.map(({ job: jobItem, city: cityItem }: IHistory, index) => {
+              return (
+                <Link key={index} href={`jobs?job=${jobItem}&city=${cityItem}`}>
+                  <a>
+                    {jobItem} - {cityItem}
+                  </a>
+                </Link>
+              );
+            })}
         </div>
       </div>
     </div>
