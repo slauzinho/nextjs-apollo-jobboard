@@ -32,7 +32,10 @@ const Index: NextFunctionComponent<IProps, IProps, AppContext> = ({
   return (
     <div style={{ display: 'flex' }}>
       <Input onChange={e => setJob(e.target.value)} />
-      <CityInput cities={cities} handleChange={setCity} />
+      <CityInput
+        cities={cities}
+        handleChange={selectedCity => setCity(selectedCity)}
+      />
 
       <a onClick={handleClick}>Procurar</a>
     </div>
