@@ -1,7 +1,13 @@
-const MY_DOMAIN = 'http://localhost:3000';
+export interface IHistory {
+  job: string;
+  city: string;
+}
 
 export async function saveHistory(searchTerm: string, city: string) {
-  const searchUrl = `${MY_DOMAIN}/jobs?job=${searchTerm}&city=${city}`;
+  const searchUrl = JSON.stringify({
+    job: searchTerm,
+    city,
+  });
   const historyString = await localStorage.getItem('history');
   if (historyString) {
     const historyList: string[] = JSON.parse(historyString);
@@ -26,10 +32,11 @@ export async function saveHistory(searchTerm: string, city: string) {
   return await localStorage.setItem('history', JSON.stringify([searchUrl]));
 }
 
-export async function getHistory(): Promise<string[]> {
+export async function getHistory(): Promise<IHistory[]> {
   const historyString = await localStorage.getItem('history');
   if (historyString) {
-    return JSON.parse(historyString);
+    const listString = JSON.parse(historyString);
+    return listString.map((item: string) => JSON.parse(item));
   }
   return [];
 }
