@@ -1,7 +1,7 @@
 const MY_DOMAIN = 'http://localhost:3000';
 
 export async function saveHistory(searchTerm: string, city: string) {
-  const searchUrl = `${MY_DOMAIN}/job=${searchTerm}&city=${city}`;
+  const searchUrl = `${MY_DOMAIN}/jobs?job=${searchTerm}&city=${city}`;
   const historyString = await localStorage.getItem('history');
   if (historyString) {
     const historyList = JSON.parse(historyString);
