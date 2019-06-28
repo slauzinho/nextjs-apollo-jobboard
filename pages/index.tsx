@@ -7,6 +7,7 @@ import { CitiesQuery, City } from '../components/generated/apolloComponents';
 import checkLoggedIn from '../lib/checkLoggedIn';
 import { getHistory, IHistory } from '../lib/history';
 import Search from '../components/Search';
+import History from '../components/History';
 
 interface IProps {
   cities: City[];
@@ -30,24 +31,7 @@ const Index: NextFunctionComponent<IProps, IProps, AppContext> = ({
       <Search cities={cities} />
       <div>
         <h3>Pesquisas Anteriores</h3>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-          }}
-        >
-          {history &&
-            history.map(({ job: jobItem, city: cityItem }: IHistory, index) => {
-              return (
-                <Link key={index} href={`jobs?job=${jobItem}&city=${cityItem}`}>
-                  <a>
-                    {jobItem} - {cityItem}
-                  </a>
-                </Link>
-              );
-            })}
-        </div>
+        <History />
       </div>
     </div>
   );
