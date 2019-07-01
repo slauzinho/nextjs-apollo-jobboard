@@ -11,7 +11,7 @@ const Menu: React.FC<Iprops & Partial<MenuProvided>> = ({
   refine,
   title,
 }) => {
-  if (items && refine) {
+  if (items && items.length > 0 && refine) {
     return (
       <div>
         <h3>{title}</h3>

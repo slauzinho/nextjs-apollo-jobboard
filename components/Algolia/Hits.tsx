@@ -8,16 +8,22 @@ interface IProps {
   handleClick: (id: string) => void;
 }
 
-const Hits = ({ hits, handleClick }: HitsProvided<IDoc> & IProps) => (
-  <ul>
-    {hits.map(hit => (
-      <Job
-        key={hit.objectID}
-        job={hit}
-        openEditor={() => handleClick(hit.objectID)}
-      />
-    ))}
-  </ul>
-);
+const Hits = ({ hits, handleClick }: HitsProvided<IDoc> & IProps) => {
+  if (hits.length === 0) {
+    return <div>Não foram encontradas ofertas....</div>;
+  }
+
+  return (
+    <ul>
+      {hits.map(hit => (
+        <Job
+          key={hit.objectID}
+          job={hit}
+          openEditor={() => handleClick(hit.objectID)}
+        />
+      ))}
+    </ul>
+  );
+};
 
 export default connectHits(Hits);
