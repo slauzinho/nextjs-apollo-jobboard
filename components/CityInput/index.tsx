@@ -1,6 +1,7 @@
 import React from 'react';
 import Downshift from 'downshift';
 import { City } from '../generated/apolloComponents';
+import Input from '../styles/components/Input';
 
 interface IProps {
   cities: City[];
@@ -40,7 +41,7 @@ const CityInput: React.FC<IProps> = props => (
     }) => (
       <div>
         <label {...getLabelProps()}>{props.children}</label>
-        <input {...getInputProps()} />
+        <Input {...getInputProps()} />
         <ul {...getMenuProps()}>
           {isOpen &&
             getSuggestions(inputValue, props.cities).map((item, index) => (
