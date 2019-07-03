@@ -40,3 +40,7 @@ export async function getHistory(): Promise<IHistory[]> {
   }
   return [];
 }
+
+export async function clearHistory() {
+  await localStorage.removeItem('history');
+}

@@ -16,10 +16,7 @@ const Index: NextFunctionComponent<IProps, IProps, AppContext> = ({
 }) => (
   <div style={{ display: 'flex', flexDirection: 'column' }}>
     <Search cities={cities} />
-    <div>
-      <h3>Pesquisas Anteriores</h3>
-      <History />
-    </div>
+    <History />
   </div>
 );
 
