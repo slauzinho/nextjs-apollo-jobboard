@@ -6,6 +6,8 @@ const theme: DefaultTheme = {
     secondary: '#E8F2FF',
     featured: '#FFBE6D',
     article: '#F5F6FA',
+    primaryLight: '#4B7AFF',
+    primaryDarker: '#0F3DBE',
   },
   text: {
     primary: '#98989E',

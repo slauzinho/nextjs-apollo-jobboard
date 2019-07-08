@@ -9,7 +9,7 @@ import { IApolloProps, AppContext } from 'lib/withApollo';
 
 const StyledPage = styled.div`
   background: white;
-  color: ${(props) => props.theme.colors.primary};
+  color: ${props => props.theme.text.dark};
 `;
 
 const Inner = styled.div`
@@ -43,6 +43,7 @@ export const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     height:100%;
     background-color: #F2F2F2;
+    color: #454F5B;
   }
 
   h3 {
@@ -57,7 +58,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Page: NextFunctionComponent<IApolloProps, any, AppContext> = (props) => (
+const Page: NextFunctionComponent<IApolloProps, any, AppContext> = props => (
   <>
     <GlobalStyle />
     <ThemeProvider theme={pallet}>
@@ -70,7 +71,7 @@ const Page: NextFunctionComponent<IApolloProps, any, AppContext> = (props) => (
   </>
 );
 
-Page.getInitialProps = async (ctx) => {
+Page.getInitialProps = async ctx => {
   console.log('PROOOOO', ctx);
   return {};
 };

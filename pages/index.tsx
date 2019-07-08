@@ -14,7 +14,15 @@ interface IProps {
 const Index: NextFunctionComponent<IProps, IProps, AppContext> = ({
   cities,
 }) => (
-  <div style={{ display: 'flex', flexDirection: 'column' }}>
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignContent: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
     <Search cities={cities} />
     <History />
   </div>
