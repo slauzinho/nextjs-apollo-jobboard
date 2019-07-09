@@ -21,6 +21,8 @@ const Index: NextFunctionComponent<IProps, IProps, AppContext> = ({
       alignContent: 'center',
       justifyContent: 'center',
       alignItems: 'center',
+      maxWidth: '80rem',
+      margin: '0 auto',
     }}
   >
     <Search cities={cities} />

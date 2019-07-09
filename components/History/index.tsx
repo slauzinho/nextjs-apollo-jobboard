@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { IHistory, getHistory, clearHistory } from '../../lib/history';
 import Link from 'next/link';
+import { Container, Title, Delete } from './styles';
 
 const History = () => {
   const [history, setHistory] = useState<IHistory[]>();
@@ -13,29 +14,28 @@ const History = () => {
     get();
   }, []);
 
-  return (
-    <div>
-      <div style={{ display: 'flex' }}>
-        <h3>Pesquisas Anteriores</h3>
-        <button
-          type="button"
-          onClick={() => {
-            setHistory([]);
-            clearHistory();
+  if (history) {
+    return (
+      <Container>
+        <div style={{ display: 'flex' }}>
+          <Title>Pesquisas Anteriores</Title>
+          <Delete
+            onClick={() => {
+              setHistory([]);
+              clearHistory();
+            }}
+          >
+            Apagar
+          </Delete>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
           }}
         >
-          Apagar
-        </button>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-        }}
-      >
-        {history &&
-          history.map(({ job, city }: IHistory, index) => {
+          {history.map(({ job, city }: IHistory, index) => {
             return (
               <Link key={index} href={`jobs?job=${job}&city=${city}`}>
                 <a>
@@ -44,9 +44,12 @@ const History = () => {
               </Link>
             );
           })}
-      </div>
-    </div>
-  );
+        </div>
+      </Container>
+    );
+  }
+
+  return null;
 };
 
 export default History;
